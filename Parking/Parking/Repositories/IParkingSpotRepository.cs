@@ -1,4 +1,5 @@
-﻿using Parking.Entities;
+﻿using Parking.Commands;
+using Parking.Entities;
 
 namespace Parking.Repositories
 {
@@ -10,5 +11,7 @@ namespace Parking.Repositories
         public List<ParkingSpot> getTakenSpots();
         public ParkingSpot ReserveSpot(int id);
         public ParkingSpot VacateSpot(int id);
+        public void AddSpot(ParkingSpot spotToAdd);
+        public void RemoveSpot(ParkingSpot spotToRemove);
     }
 }

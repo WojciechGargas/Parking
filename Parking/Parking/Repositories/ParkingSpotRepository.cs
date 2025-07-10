@@ -1,4 +1,5 @@
-﻿using Parking.Entities;
+﻿using Parking.Commands;
+using Parking.Entities;
 
 namespace Parking.Repositories
 {
@@ -40,6 +41,18 @@ namespace Parking.Repositories
             dbContext.SaveChanges();
 
             return spotToVacate;
+        }
+
+        public void AddSpot(ParkingSpot spotToAdd)
+        {
+            dbContext.ParkingLot.Add(spotToAdd);
+            dbContext.SaveChanges();
+        }
+
+        public void RemoveSpot(ParkingSpot spotToRemove)
+        {
+            dbContext.ParkingLot.Remove(spotToRemove);
+            dbContext.SaveChanges();
         }
     }
 }

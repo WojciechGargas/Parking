@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Parking.Commands;
 using Parking.Dto;
+using Parking.Entities;
 using Parking.Repositories;
 
 namespace Parking.Services
@@ -12,6 +14,8 @@ namespace Parking.Services
         public List<ParkingSpotDto> GetTakenSpots();
         public ParkingSpotDto ReserveSpot(int id);
         public ParkingSpotDto VacateSpot(int id);
+        public ParkingSpotDto AddSpot(AddSpotCommand command);
+        public ParkingSpotDto RemoveSpot(RemoveSpotCommand command);
 
     }
     public class ParkingSpotService(IParkingSpotRepository parkingSpotRepository) : IParkingSpotService
@@ -124,6 +128,54 @@ namespace Parking.Services
             };
 
             return spotToVacateDto;
+        }
+
+        public ParkingSpotDto AddSpot(AddSpotCommand command)
+        {
+            var spotToAdd = new ParkingSpot()
+            {
+                Id = command.Id,
+                Floor = command.Floor,
+                Size = new ParkingSpotSize()
+                {
+                    Width = command.Size.Width,
+                    Length = command.Size.Length,
+                    MaxVehicleHeight = command.Size.MaxVehicleHeight
+                },
+                Empty = command.Empty
+            };
+            parkingSpotRepository.AddSpot(spotToAdd);
+            return MapSpotToDto(spotToAdd);
+        }
+
+        private ParkingSpotDto MapSpotToDto(ParkingSpot spot)
+        {
+            var spotToAddDto = new ParkingSpotDto()
+            {
+                Id = spot.Id,
+                Floor = spot.Floor,
+                Size = new ParkingSpotSizeDto()
+                {
+                    Width = spot.Size.Width,
+                    Length = spot.Size.Length,
+                    MaxVehicleHeight = spot.Size.MaxVehicleHeight
+                },
+                Empty = spot.Empty
+            };
+            return spotToAddDto;
+        }
+
+        public ParkingSpotDto RemoveSpot(RemoveSpotCommand command)
+        {
+            var spotToRemove = parkingSpotRepository.getSpot(command.Id);
+            if (spotToRemove is null)
+            {
+                return null;
+            }
+
+            parkingSpotRepository.RemoveSpot(spotToRemove);
+
+            return MapSpotToDto(spotToRemove);
         }
     }
     

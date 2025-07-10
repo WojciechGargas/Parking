@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Parking.Commands;
 using Parking.Dto;
 using Parking.Entities;
 using Parking.Repositories;
@@ -65,6 +66,30 @@ namespace Parking.Controllers
             }
 
             return Ok(spotToVacate);
+        }
+
+        [HttpPost]
+        public ActionResult<ParkingSpotDto> AddSpot([FromBody] AddSpotCommand command)
+        {
+            var newSpotDto = parkingSpotService.AddSpot(command);
+            if (newSpotDto is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(newSpotDto);
+        }
+
+        [HttpDelete]
+        public ActionResult<ParkingSpotDto> RemoveSpot([FromBody] RemoveSpotCommand command)
+        {
+            var spotToRemove = parkingSpotService.RemoveSpot(command);
+            if (spotToRemove is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(spotToRemove);
         }
     }
 
