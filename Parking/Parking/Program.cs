@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Parking.Entities;
+using Parking.Repositories;
 using Parking.Seeder;
+using Parking.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +14,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>();
 builder.Services.AddTransient<ParkingSeeder>();
+builder.Services.AddScoped<IParkingSpotRepository, ParkingSpotRepository>();
+builder.Services.AddScoped<IParkingSpotService, ParkingSpotService>();
 
 var app = builder.Build();
 
