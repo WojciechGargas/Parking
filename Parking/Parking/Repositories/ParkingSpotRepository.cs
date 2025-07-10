@@ -8,5 +8,11 @@ namespace Parking.Repositories
         {
             return dbContext.ParkingLot.ToList();
         }
+
+        public ParkingSpot getSpot(int id)
+        {
+            return dbContext.ParkingLot.FirstOrDefault(p => p.Id == id);
+        }
+
     }
 }

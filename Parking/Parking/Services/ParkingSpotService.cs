@@ -7,6 +7,7 @@ namespace Parking.Services
     public interface IParkingSpotService
     {
         public List<ParkingSpotDto> GetAllSpots();
+        public ParkingSpotDto GetSpot(int id);
     }
     public class ParkingSpotService(IParkingSpotRepository parkingSpotRepository) : IParkingSpotService
     {
@@ -27,6 +28,25 @@ namespace Parking.Services
             }).ToList();
             return spotsDto;
         }
+
+        public ParkingSpotDto GetSpot(int id)
+        {
+            var spot = parkingSpotRepository.getSpot(id);
+            var spotDto = new ParkingSpotDto()
+            {
+                Id = spot.Id,
+                Floor = spot.Floor,
+                Size = new ParkingSpotSizeDto()
+                {
+                    Width = spot.Size.Width,
+                    Length = spot.Size.Length,
+                    MaxVehicleHeight = spot.Size.MaxVehicleHeight
+                },
+                Empty = spot.Empty
+            };
+            return spotDto;
+        }
     }
+    
 
 }
