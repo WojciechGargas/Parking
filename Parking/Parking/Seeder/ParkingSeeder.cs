@@ -2,8 +2,15 @@
 
 namespace Parking.Seeder
 {
-    public class ParkingSeeder(AppDbContext dboContext)
+    public class ParkingSeeder
     {
+        private readonly AppDbContext dboContext;
+
+        public ParkingSeeder(AppDbContext dboContext)
+        {
+            this.dboContext = dboContext;
+        }
+
         public void Seed()
         {
             if (dboContext.Database.CanConnect())

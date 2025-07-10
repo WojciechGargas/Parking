@@ -8,7 +8,6 @@ namespace Parking.Entities
             "Server=(localdb)\\mssqllocaldb;Database=Parking;Trusted_Connection=True;";
 
         public DbSet<ParkingSpot>  ParkingLot { get; set; }
-        public DbSet<ParkingSpotSize> ParkingSpotSizes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

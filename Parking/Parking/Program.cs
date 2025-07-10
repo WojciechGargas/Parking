@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Parking.Entities;
 using Parking.Seeder;
 
@@ -10,13 +11,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>();
+builder.Services.AddTransient<ParkingSeeder>();
 
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    var seeder = new ParkingSeeder(dbContext);
+    var seeder = scope.ServiceProvider.GetRequiredService<ParkingSeeder>();
     seeder.Seed();
 }
 
