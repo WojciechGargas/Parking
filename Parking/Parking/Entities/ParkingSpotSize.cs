@@ -1,5 +1,8 @@
-﻿namespace Parking.Entities
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace Parking.Entities
 {
+    [Owned]
     public class ParkingSpotSize
     {
         public double Width { get; set; }

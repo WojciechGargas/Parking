@@ -12,30 +12,20 @@ namespace Parking.Entities
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ParkingSpotSize>()
-                .Property(s => s.Width)
-                .IsRequired();
-            modelBuilder.Entity<ParkingSpotSize>()
-                .Property(s => s.Length)
-                .IsRequired();
-            modelBuilder.Entity<ParkingSpotSize>()
-                .Property(s => s.Width)
-                .HasDefaultValue(3.0);
-            modelBuilder.Entity<ParkingSpotSize>()
-                .Property(s => s.Length)
-                .HasDefaultValue(5.0);
-            modelBuilder.Entity<ParkingSpotSize>()
-                .Property(s => s.MaxVehicleHeight)
-                .HasDefaultValue(2.2);
-            modelBuilder.Entity<ParkingSpot>()
-                .Property(ps => ps.Size)
-                .IsRequired();
-            modelBuilder.Entity<ParkingSpot>()
-                .Property(ps => ps.Empty)
-                .HasDefaultValue(true);
             modelBuilder.Entity<ParkingSpot>()
                 .Property(ps => ps.Floor)
                 .HasDefaultValue(1);
+            modelBuilder.Entity<ParkingSpot>()
+                .OwnsOne(ps => ps.Size, size =>
+                {
+                    size.Property(s => s.Width).HasDefaultValue(3.0).IsRequired();
+                    size.Property(s => s.Length).HasDefaultValue(5.0).IsRequired();
+                    size.Property(s => s.MaxVehicleHeight).HasDefaultValue(2.2).IsRequired();
+                });
+            modelBuilder.Entity<ParkingSpot>()
+                .Property(ps => ps.Empty)
+                .HasDefaultValue(true);
+            
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
