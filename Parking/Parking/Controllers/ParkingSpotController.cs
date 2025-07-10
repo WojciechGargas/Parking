@@ -28,6 +28,44 @@ namespace Parking.Controllers
 
             return Ok(spot);
         }
+
+        [HttpGet("/empty")]
+        public ActionResult<List<ParkingSpotDto>> GetEmptySpots()
+        {
+            var emptySpots = parkingSpotService.GetEmptySpots();
+            return Ok(emptySpots);
+        }
+
+        [HttpGet("/taken")]
+        public ActionResult<List<ParkingSpotDto>> GetTakenSpots()
+        {
+            var takenSpots = parkingSpotService.GetTakenSpots();
+            return Ok(takenSpots);
+        }
+
+        [HttpPatch("reserve/{id}")]
+        public ActionResult<ParkingSpotDto> ReserveSpot([FromRoute] int id)
+        {
+            var spotToReserve = parkingSpotService.ReserveSpot(id);
+            if (spotToReserve is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(spotToReserve);
+        }
+
+        [HttpPatch("vacate/{id}")]
+        public ActionResult<ParkingSpotDto> VacateSpot([FromRoute] int id)
+        {
+            var spotToVacate = parkingSpotService.VacateSpot(id);
+            if (spotToVacate is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(spotToVacate);
+        }
     }
 
     
